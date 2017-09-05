@@ -1,0 +1,50 @@
+# project: cj76dgl631h6k01330824ixpu
+# version: 14
+
+type File implements Node {
+  contentType: String!
+  createdAt: DateTime!
+  id: ID! @isUnique
+  name: String!
+  secret: String! @isUnique
+  size: Int!
+  updatedAt: DateTime!
+  url: String! @isUnique
+}
+
+type User implements Node {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  id: ID! @isUnique
+  firstName: String!
+  lastName: String!
+  dateOfBirth: DateTime!
+  gender: String!
+  details: [Detail!]! @relation(name: "UserOnDetail")
+}
+
+type Detail implements Node {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  id: ID! @isUnique
+  user: User! @relation(name: "UserOnDetail")
+  destination: Destinations!
+  duration: Int!
+  price: Int!
+  currency: Currencies!
+}
+
+enum Currencies {
+  USD
+  EUR
+  UAH
+}
+
+enum Destinations {
+  Japan
+  USA
+  Ukraine
+  England
+  Australia
+  Canada
+}

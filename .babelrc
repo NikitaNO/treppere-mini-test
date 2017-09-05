@@ -1,0 +1,31 @@
+{
+  "plugins": [
+    "transform-class-properties",
+    "transform-decorators-legacy",
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": "css"
+      }
+    ]
+  ],
+  "presets": [
+    [
+      "es2015",
+      {
+        "modules": false
+      }
+    ],
+    "react",
+    "stage-0",
+    "stage-2"
+  ],
+  "env": {
+    "development": {
+      "presets": [
+        "react-hmre"
+      ]
+    }
+  }
+}

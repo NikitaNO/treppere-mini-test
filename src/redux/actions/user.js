@@ -25,17 +25,45 @@ export const getUser = () => (dispatch) => {
   })
 };
 
-export const createUser = () => (dispatch) => {
+export const createUser = (promiseAction, userData) => (dispatch) => {
+  message.destroy();
+  message.loading('User data is saving..', 60);
   dispatch({
     type: user.CREATE_USER
   });
 
-  message.loading('User data is saving..', 60000);
-  // message.error('User data saving is failed.', 5000);
-  // message.success('User data is saved.', 5000);
-  // message.destroy(); // on error of success action
+  return promiseAction(userData)
+    .then(res => {
+      message.destroy();
+      message.success('User data is saved.', 5);
+      const { dateOfBirth, firstName, lastName, gender } = res.data.createUser;
+      dispatch({
+        type: user.CREATE_USER_SUCCESS,
+        payload: {
+          date_of_birth: dateOfBirth || new Date(),
+          first_name: firstName || '',
+          last_name: lastName || '',
+          gender: gender || 'Male'
+        }
+      });
 
-  return new Promise((resolve, reject) => {
-
-  })
+      return res;
+    })
+    .catch(err => {
+      message.destroy();
+      message.error('User data saving is failed.', 5);
+      dispatch({
+        type: user.USER_ERROR,
+        payload: {
+          user: {
+            date_of_birth: userData.dateOfBirth,
+            first_name: userData.firstName,
+            last_name: userData.lastName,
+            gender: userData.gender
+          },
+          error: err
+        }
+      });
+      console.error(err);
+    });
 };

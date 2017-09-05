@@ -1,42 +1,60 @@
 import React, { Component } from 'react';
-import { MyDetailsForm } from '../../components/index';
+import { graphql } from 'react-apollo';
 import { connect } from 'react-redux';
-import { Row, Spin } from 'antd';
 import moment from 'moment';
+import gql from 'graphql-tag';
+import { createUser } from '../../redux/actions';
+import { MyDetailsForm } from '../../components/index';
 
 class MyDetails extends Component {
-  handleAddUpdateAim = data => {
-    console.log(data, 'USER');
+  handleCreateUser = data => {
+    data.dateOfBirth = moment(data.dateOfBirth).toDate();
+    this.props.createUser(this.props.addUser, data)
+      .then(res => this.props.router.replace('/photos'));
   };
 
   render() {
     const {
-      userInRequest,
       initialValues
     } = this.props;
 
-    return userInRequest ? (
-      <Row type="flex" justify="space-around" align="middle">
-        <Spin size="large"/>
-      </Row>
-    ) : (
+    return (
       <MyDetailsForm initialValues={initialValues}
-                     handleAddUpdateAim={this.handleAddUpdateAim} />
+                     handleCreateUser={this.handleCreateUser} />
     );
   }
 }
 
-MyDetails = connect(
+const createUserMutation = gql`
+  mutation addUser($firstName: String!, $lastName: String!, $gender: Gender!, $dateOfBirth: DateTime!) {
+    createUser(firstName: $firstName, lastName: $lastName, gender: $gender, dateOfBirth: $dateOfBirth) {
+      firstName lastName gender dateOfBirth
+    }
+  }
+`;
+
+const withUserMutation = graphql(createUserMutation, {
+  props: ({ ownProps, mutate }) => ({
+    addUser (data) {
+      return mutate({
+        variables: data
+      })
+    },
+  }),
+});
+
+const MyDetailsWithState = connect(
   state => ({
     initialValues: {
-      id: state.user.user.id,
-      first_name: state.user.user.first_name,
-      last_name: state.user.user.last_name,
+      firstName: state.user.user.first_name,
+      lastName: state.user.user.last_name,
       gender: state.user.user.gender,
-      date_of_birth: moment(state.user.user.date_of_birth)
+      dateOfBirth: state.user.user.date_of_birth
     },
     userInRequest: state.user.in_request
-  })
+  }), {
+    createUser
+  }
 )(MyDetails);
 
-export default MyDetails;
+export default withUserMutation(MyDetailsWithState);

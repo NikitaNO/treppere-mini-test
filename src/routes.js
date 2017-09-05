@@ -3,9 +3,10 @@ import { Route, IndexRoute } from 'react-router';
 import {
   App,
   MyDetails,
+  AddPhotos
 } from './containers';
 import {
-  NotFound,
+  NotFound
 } from './components';
 
 export default function (store) {
@@ -20,6 +21,7 @@ export default function (store) {
   return (
     <Route path="/" component={App} onEnter={replaceToDashboard}>
       <Route path="my-details" component={MyDetails} />
+      <Route path="photos" component={AddPhotos} />
 
       <Route path="*" component={NotFound} />
     </Route>

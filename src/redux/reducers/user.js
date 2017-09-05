@@ -2,10 +2,9 @@ import { userConst } from '../actions';
 
 const initialState = {
   user: {
-    id: '',
     first_name: '',
     last_name: '',
-    gender: 'male',
+    gender: 'Male',
     date_of_birth: new Date()
   },
   in_request: false,

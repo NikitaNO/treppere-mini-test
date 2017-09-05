@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import { reduxForm, Field } from 'redux-form';
 import {
@@ -21,7 +22,7 @@ class MyDetailsForm extends Component {
 
   renderDatePicker = props => (
     <DatePicker onChange={ props.input.onChange }
-                value={ props.input.value }
+                value={ moment(props.input.value) }
                 showToday
                 style={{ width: '100%' }}
                 placeholder={ props.placeholder }/>
@@ -31,27 +32,27 @@ class MyDetailsForm extends Component {
     <Select value={ props.input.value }
             onChange={ props.input.onChange }
             style={{ width: '100%' }}>
-      <Select.Option value="male">Male</Select.Option>
-      <Select.Option value="female">Female</Select.Option>
+      <Select.Option value="Male">Male</Select.Option>
+      <Select.Option value="Female">Female</Select.Option>
     </Select>
   );
 
   render() {
     const {
       handleSubmit,
-      handleAddUpdateAim
+      handleCreateUser
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(handleAddUpdateAim)}>
-        <Row>
+      <form className="my-details__form" onSubmit={handleSubmit(handleCreateUser)}>
+        <Row className="form__header">
           <h2>Name</h2>
         </Row>
-        <Row>
+        <Row className="form__body">
           <Col span={11}>
             <Field
               className="field_block"
-              name="first_name"
+              name="firstName"
               component={this.renderInput}
               placeholder="First Name"
             />
@@ -59,21 +60,21 @@ class MyDetailsForm extends Component {
           <Col span={11} offset={2}>
             <Field
               className="field_block"
-              name="last_name"
+              name="lastName"
               component={this.renderInput}
               placeholder="Last Name"
             />
           </Col>
         </Row>
 
-        <Row>
+        <Row className="form__header">
           <h2>Age and Gender</h2>
         </Row>
-        <Row>
+        <Row className="form__body">
           <Col span={11}>
             <Field
               className="field_block"
-              name="date_of_birth"
+              name="dateOfBirth"
               component={this.renderDatePicker}
               placeholder="Date Of Birth"
             />
@@ -88,16 +89,36 @@ class MyDetailsForm extends Component {
           </Col>
         </Row>
 
-        <div className="buttons_block">
+        <Row className="form__btn-">
           <Button
             type="primary"
             htmlType="submit"
           >NEXT</Button>
-        </div>
+        </Row>
       </form>
     );
   }
 }
+
+const validate = values => {
+  const errors = {};
+
+  if (!values.firstName) {
+    errors.firstName = 'Required';
+  }
+
+  if (!values.lastName) {
+    errors.lastName = 'Required';
+  }
+
+  if (!values.dateOfBirth) {
+    errors.dateOfBirth = 'Required';
+  }
+
+  if (!values.gender) {
+    errors.gender = 'Required';
+  }
+};
 
 MyDetailsForm = reduxForm({
   form: 'myDetailsForm',

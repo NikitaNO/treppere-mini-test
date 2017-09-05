@@ -1,5 +1,5 @@
 # project: cj76dgl631h6k01330824ixpu
-# version: 14
+# version: 17
 
 type File implements Node {
   contentType: String!
@@ -19,15 +19,13 @@ type User implements Node {
   firstName: String!
   lastName: String!
   dateOfBirth: DateTime!
-  gender: String!
-  details: [Detail!]! @relation(name: "UserOnDetail")
+  gender: Gender!
 }
 
 type Detail implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   id: ID! @isUnique
-  user: User! @relation(name: "UserOnDetail")
   destination: Destinations!
   duration: Int!
   price: Int!
@@ -47,4 +45,9 @@ enum Destinations {
   England
   Australia
   Canada
+}
+
+enum Gender {
+  Male
+  Female
 }

@@ -14,22 +14,6 @@ const initialState = {
 /* eslint-disable import/prefer-default-export */
 export const user = (state = initialState, action) => {
   switch (action.type) {
-    // GET
-    case userConst.GET_USER:
-      return {
-        ...state,
-        in_request: true,
-        error: null
-      };
-    case userConst.GET_USER_SUCCESS:
-      return {
-        ...state,
-        user: action.payload,
-        in_request: false,
-        error: null
-      };
-
-    // CREATE
     case userConst.CREATE_USER:
       return {
         ...state,
@@ -44,7 +28,6 @@ export const user = (state = initialState, action) => {
         error: null
       };
 
-    // ERROR
     case userConst.USER_ERROR:
       return {
         ...state,

@@ -1,5 +1,5 @@
 # project: cj76dgl631h6k01330824ixpu
-# version: 17
+# version: 19
 
 type File implements Node {
   contentType: String!
@@ -10,6 +10,7 @@ type File implements Node {
   size: Int!
   updatedAt: DateTime!
   url: String! @isUnique
+  resizedCopies: [String!]
 }
 
 type User implements Node {

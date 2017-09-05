@@ -1,7 +1,4 @@
 export MyDetailsForm from './MyDetails/MyDeatilsForm';
-
-// ==================================
-// Helper components
-// ==================================
+export PhotoItem from './AddPhotos/PhotoItem';
 export LeftDrawer from './Theme/LeftDrawer';
 export NotFound from './NotFound';

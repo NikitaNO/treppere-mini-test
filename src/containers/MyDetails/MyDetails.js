@@ -1,16 +1,25 @@
-import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
-import { connect } from 'react-redux';
+import { Row } from 'antd';
 import moment from 'moment';
 import gql from 'graphql-tag';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { graphql } from 'react-apollo';
+import React, { Component } from 'react';
+import { push } from 'react-router-redux';
 import { createUser } from '../../redux/actions';
 import { MyDetailsForm } from '../../components/index';
 
 class MyDetails extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func,
+    addUser: PropTypes.func,
+    initialValues: PropTypes.object,
+  };
+
   handleCreateUser = data => {
     data.dateOfBirth = moment(data.dateOfBirth).toDate();
-    this.props.createUser(this.props.addUser, data)
-      .then(res => this.props.router.replace('/photos'));
+    this.props.dispatch(createUser(this.props.addUser, data))
+      .then(res => this.props.dispatch(push('/photos')));
   };
 
   render() {
@@ -19,8 +28,14 @@ class MyDetails extends Component {
     } = this.props;
 
     return (
-      <MyDetailsForm initialValues={initialValues}
-                     handleCreateUser={this.handleCreateUser} />
+      <div className="my-details">
+        <Row>
+          <h1>My Details</h1>
+          <hr/>
+        </Row>
+        <MyDetailsForm initialValues={initialValues}
+                       handleCreateUser={this.handleCreateUser} />
+      </div>
     );
   }
 }
@@ -50,11 +65,8 @@ const MyDetailsWithState = connect(
       lastName: state.user.user.last_name,
       gender: state.user.user.gender,
       dateOfBirth: state.user.user.date_of_birth
-    },
-    userInRequest: state.user.in_request
-  }), {
-    createUser
-  }
+    }
+  })
 )(MyDetails);
 
 export default withUserMutation(MyDetailsWithState);

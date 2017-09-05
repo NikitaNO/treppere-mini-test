@@ -1,7 +1,7 @@
 const config = {
-  protocol: 'http',
+  protocol: process.env.PROTOCOL || 'http',
   host: process.env.HOST || 'localhost',
-  port: process.env.HOST || '5000',
+  port: process.env.PORT || '5000',
   graphql: {
     project_id: 'cj76dgl631h6k01330824ixpu',
     api: 'https://api.graph.cool/simple/v1/cj76dgl631h6k01330824ixpu'

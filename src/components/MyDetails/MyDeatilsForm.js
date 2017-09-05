@@ -13,6 +13,11 @@ import {
 } from 'antd';
 
 class MyDetailsForm extends Component {
+  static propTypes = {
+    initialValues: PropTypes.object,
+    handleCreateUser: PropTypes.func.isRequired
+  };
+
   renderInput = props => (
     <Input placeholder={ props.placeholder }
            value={ props.input.value }
@@ -48,7 +53,7 @@ class MyDetailsForm extends Component {
         <Row className="form__header">
           <h2>Name</h2>
         </Row>
-        <Row className="form__body">
+        <Row className="form form__body">
           <Col span={11}>
             <Field
               className="field_block"
@@ -67,7 +72,7 @@ class MyDetailsForm extends Component {
           </Col>
         </Row>
 
-        <Row className="form__header">
+        <Row className="form form__header">
           <h2>Age and Gender</h2>
         </Row>
         <Row className="form__body">
@@ -89,7 +94,7 @@ class MyDetailsForm extends Component {
           </Col>
         </Row>
 
-        <Row className="form__btn-">
+        <Row className="form form__btn">
           <Button
             type="primary"
             htmlType="submit"

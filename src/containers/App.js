@@ -10,21 +10,6 @@ import {
 } from '../components';
 import '../assets/styles/index.scss';
 
-const {
-  Header,
-  Footer,
-  Sider,
-  Content
-} = Layout;
-
-const HeaderTitle = ({}) => (
-  <span style={{ fontSize: 20 }}>{
-    location.pathname === '/my-details' ? 'My Details' :
-    location.pathname === '/photos' ? 'Add Photos' :
-    location.pathname === '/locations' ? 'My Locations' : ''
-  }</span>
-);
-
 export default class App extends Component {
 
   static propTypes = {
@@ -46,36 +31,31 @@ export default class App extends Component {
   };
 
   render() {
-    const { children } = this.props;
-
     return (
       <Layout>
-        <Sider
-          trigger={null}
-          collapsible
-          collapsed={this.state.collapsed}
-        >
+        <Layout.Sider trigger={null}
+               collapsible
+               collapsed={this.state.collapsed}>
           <div className="logo">
             <span className="logo_letter">Tr</span>
             <span className="logo_name">Treppere</span>
           </div>
           <LeftDrawer />
-        </Sider>
+        </Layout.Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }}>
-            <Icon
-              className="trigger"
-              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggle}
-            />
-            <HeaderTitle />
-          </Header>
-          <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
-            { children }
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            Treppere ©2017 Created by DoIT
-          </Footer>
+          <Layout.Header style={{ background: '#fff', padding: 0 }}>
+            <Icon className="trigger"
+                  type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                  onClick={this.toggle} />
+          </Layout.Header>
+
+          <Layout.Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
+            { this.props.children }
+          </Layout.Content>
+
+          <Layout.Footer style={{ textAlign: 'center' }}>
+            <span>Treppere ©2017 Created by DoIT</span>
+          </Layout.Footer>
         </Layout>
       </Layout>
     );

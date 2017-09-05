@@ -1,6 +1,11 @@
 export {
-  getUser,
   createUser,
-
-  user as userConst
+  userConst
 } from './user';
+
+export {
+  uploadPhoto,
+  deletePhoto,
+  resizePhoto,
+  photoConst
+} from './photo';

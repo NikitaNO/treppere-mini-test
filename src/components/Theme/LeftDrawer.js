@@ -37,6 +37,14 @@ class LeftDrawer extends Component {
     };
   }
 
+  componentWillReceiveProps(cp, np) {
+    if (this.state.selectedKey !== location.pathname) {
+      this.setState({
+        selectedKey: location.pathname
+      })
+    }
+  }
+
   redirect = link => {
     const { dispatch } = this.props;
     this.setState({
@@ -61,8 +69,6 @@ class LeftDrawer extends Component {
   }
 }
 
-LeftDrawer = connect(({}) => ({
-
-}))(LeftDrawer);
+LeftDrawer = connect(state => state)(LeftDrawer);
 
 export default LeftDrawer;

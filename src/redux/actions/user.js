@@ -1,44 +1,26 @@
 import { message } from 'antd';
 
-export const user = {
-  GET_USER: 'GET_USER',
-  GET_USER_SUCCESS: 'GET_USER_SUCCESS',
-
+export const userConst = {
   CREATE_USER: 'CREATE_USER',
   CREATE_USER_SUCCESS: 'CREATE_USER_SUCCESS',
 
   USER_ERROR: 'USER_ERROR'
 };
 
-export const getUser = () => (dispatch) => {
-  dispatch({
-    type: user.GET_USER
-  });
-
-  message.loading('User data is fetching..', 60000);
-  // message.error('User data fetching is failed.', 5000);
-  // message.success('User data is fetched.', 5000);
-  // message.destroy(); // on error of success action
-
-  return new Promise((resolve, reject) => {
-
-  })
-};
-
 export const createUser = (promiseAction, userData) => (dispatch) => {
   message.destroy();
   message.loading('User data is saving..', 60);
   dispatch({
-    type: user.CREATE_USER
+    type: userConst.CREATE_USER
   });
 
-  return promiseAction(userData)
+  return new Promise((resolve, reject) => promiseAction(userData)
     .then(res => {
       message.destroy();
       message.success('User data is saved.', 5);
-      const { dateOfBirth, firstName, lastName, gender } = res.data.createUser;
+      const {dateOfBirth, firstName, lastName, gender} = res.data.createUser;
       dispatch({
-        type: user.CREATE_USER_SUCCESS,
+        type: userConst.CREATE_USER_SUCCESS,
         payload: {
           date_of_birth: dateOfBirth || new Date(),
           first_name: firstName || '',
@@ -47,13 +29,13 @@ export const createUser = (promiseAction, userData) => (dispatch) => {
         }
       });
 
-      return res;
+      resolve(res);
     })
     .catch(err => {
       message.destroy();
       message.error('User data saving is failed.', 5);
       dispatch({
-        type: user.USER_ERROR,
+        type: userConst.USER_ERROR,
         payload: {
           user: {
             date_of_birth: userData.dateOfBirth,
@@ -65,5 +47,6 @@ export const createUser = (promiseAction, userData) => (dispatch) => {
         }
       });
       console.error(err);
-    });
+    })
+  );
 };

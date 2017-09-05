@@ -1,12 +1,12 @@
 {
-  "name": "mern-client",
-  "version": "1.0.0",
-  "description": "MERN [client-side].",
+  "name": "treppere-mini-test",
+  "version": "0.0.1",
+  "description": "Treppere mini test.",
   "main": "main.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack/webpack.config.dev.js "
   },
-  "author": "Yevhenii Buhor",
+  "author": "DoIT Programming Solutions",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
@@ -39,7 +39,6 @@
     "react": "^15.6.1",
     "react-apollo": "^1.4.15",
     "react-bootstrap": "^0.31.2",
-    "react-cookie": "^2.1.0",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
     "react-router": "3.*",

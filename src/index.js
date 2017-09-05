@@ -13,8 +13,9 @@ import locales from 'antd/lib/locale-provider/en_US';
 
 const history = syncHistoryWithStore(browserHistory, store);
 
+// react-apollo configuration
 const networkInterface = createNetworkInterface({
-  uri: config.graphQLApi
+  uri: config.graphql.api
 });
 const client = new ApolloClient({
   networkInterface: networkInterface

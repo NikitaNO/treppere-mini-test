@@ -47,20 +47,24 @@ class AddPhotos extends Component {
         img.onload = function(){
           const h = new BigNumber(img.height);
           const w = new BigNumber(img.width);
-          const reqH = new BigNumber(252);
-          const reqW = new BigNumber(178);
+          const H = new BigNumber(252);
+          const W = new BigNumber(178);
 
           const wh = w.div(h);
-          const reqHreqW = reqW.div(reqH);
+          const HW = W.div(H);
 
-          if (!wh.equals(reqHreqW)) {
-            dispatch(
-              resizePhoto(addResizedCopies, res.id, `https://images.graph.cool/v1/${config.graphql.project_id}/${res.secret}/178x252`, index)
-            );
-          } else {
-            dispatch(
-              cropPhoto(addCroppedCopies, res.id, `https://images.graph.cool/v1/${config.graphql.project_id}/${res.secret}/0x0:178x252`, index)
-            );
+          if (!(img.height < 252 && img.width < 178)) {
+            if (wh.equals(HW)) {
+              dispatch(
+                resizePhoto(addResizedCopies, res.id, `https://images.graph.cool/v1/${config.graphql.project_id}/${res.secret}/178x252`, index)
+              );
+            } else {
+              const center = `${Math.round(w / 2 - 178 / 2)}x${Math.round(h / 2 - 252 / 20)}`;
+
+              dispatch(
+                cropPhoto(addCroppedCopies, res.id, `https://images.graph.cool/v1/${config.graphql.project_id}/${res.secret}/${center}:178x252`, index)
+              );
+            }
           }
         };
 

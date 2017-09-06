@@ -27,7 +27,7 @@ export default class PhotoItem extends Component {
       width: 178,
       height: 252,
       cursor: 'pointer',
-      backgroundImage: `url(${photo.url})`
+      background: `url(${photo.url}) 50% 50% no-repeat`
     };
 
     return (

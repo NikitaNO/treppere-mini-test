@@ -11,6 +11,9 @@ export const photoConst = {
   RESIZE_PHOTO: 'RESIZE_PHOTO',
   RESIZE_PHOTO_SUCCESS: 'RESIZE_PHOTO_SUCCESS',
 
+  CROP_PHOTO: 'CROP_PHOTO',
+  CROP_PHOTO_SUCCESS: 'CROP_PHOTO_SUCCESS',
+
   PHOTO_ERROR: 'PHOTO_ERROR'
 };
 
@@ -109,6 +112,42 @@ export const resizePhoto = (promiseAction, id, resizedPhoto, index) => dispatch 
     .catch(err => {
       message.destroy();
       message.error('Photo resizing is failed.', 5);
+      dispatch({
+        type: photoConst.PHOTO_ERROR,
+        payload: err
+      });
+      console.error(err);
+    })
+  );
+};
+
+export const cropPhoto = (promiseAction, id, croppedPhoto, index) => dispatch => {
+  message.destroy();
+  message.loading('Photo is cropping..', 60);
+  dispatch({
+    type: photoConst.CROP_PHOTO
+  });
+
+  return new Promise((resolve, reject) => promiseAction(id, [croppedPhoto])
+    .then(res => {
+      message.destroy();
+      message.success('Photo is cropped.', 5);
+      dispatch({
+        type: photoConst.CROP_PHOTO_SUCCESS,
+        payload: {
+          index,
+          photo: {
+            id,
+            url: croppedPhoto
+          }
+        }
+      });
+
+      resolve(res);
+    })
+    .catch(err => {
+      message.destroy();
+      message.error('Photo cropping is failed.', 5);
       dispatch({
         type: photoConst.PHOTO_ERROR,
         payload: err

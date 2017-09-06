@@ -60,6 +60,23 @@ export const photo = (state = initialState, action) => {
         error: null
       };
 
+    case photoConst.CROP_PHOTO:
+      return {
+        ...state,
+        in_request: true,
+        error: null
+      };
+    case photoConst.CROP_PHOTO_SUCCESS:
+      photos = [...state.photos];
+      photos[action.payload.index] = action.payload.photo;
+
+      return {
+        ...state,
+        photos,
+        in_request: false,
+        error: null
+      };
+
     case photoConst.PHOTO_ERROR:
       return {
         ...state,

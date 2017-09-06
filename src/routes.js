@@ -3,7 +3,8 @@ import { Route, IndexRoute } from 'react-router';
 import {
   App,
   MyDetails,
-  AddPhotos
+  AddPhotos,
+  Plans
 } from './containers';
 import {
   NotFound
@@ -22,6 +23,7 @@ export default function (store) {
     <Route path="/" component={App} onEnter={replaceToDashboard}>
       <Route path="my-details" component={MyDetails} />
       <Route path="photos" component={AddPhotos} />
+      <Route path="plans" component={Plans} />
 
       <Route path="*" component={NotFound} />
     </Route>

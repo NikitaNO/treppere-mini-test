@@ -1,13 +1,13 @@
 import { Row } from 'antd';
 import moment from 'moment';
-import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { graphql } from 'react-apollo';
 import React, { Component } from 'react';
 import { push } from 'react-router-redux';
+
 import { createUser } from '../../redux/actions';
 import { MyDetailsForm } from '../../components/index';
+import { withCreateUserMutation } from '../../db/mutations';
 
 class MyDetails extends Component {
   static propTypes = {
@@ -40,24 +40,6 @@ class MyDetails extends Component {
   }
 }
 
-const createUserMutation = gql`
-  mutation addUser($firstName: String!, $lastName: String!, $gender: Gender!, $dateOfBirth: DateTime!) {
-    createUser(firstName: $firstName, lastName: $lastName, gender: $gender, dateOfBirth: $dateOfBirth) {
-      firstName lastName gender dateOfBirth
-    }
-  }
-`;
-
-const withUserMutation = graphql(createUserMutation, {
-  props: ({ ownProps, mutate }) => ({
-    addUser (data) {
-      return mutate({
-        variables: data
-      })
-    },
-  }),
-});
-
 const MyDetailsWithState = connect(
   state => ({
     initialValues: {
@@ -69,4 +51,4 @@ const MyDetailsWithState = connect(
   })
 )(MyDetails);
 
-export default withUserMutation(MyDetailsWithState);
+export default withCreateUserMutation(MyDetailsWithState);

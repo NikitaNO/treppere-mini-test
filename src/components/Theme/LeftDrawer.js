@@ -27,8 +27,8 @@ class LeftDrawer extends Component {
         icon: 'camera-o'
       },
       locations: {
-        title: 'Locations',
-        link: '/locations',
+        title: 'Plans',
+        link: '/plans',
         icon: 'environment-o'
       }
     };

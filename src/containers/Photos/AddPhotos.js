@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import { message } from 'antd';
 import { Row, Button } from 'antd';
-import { graphql } from 'react-apollo';
 import BigNumber from 'bignumber.js';
-import gql from 'graphql-tag';
-import {
-  uploadPhoto,
-  deletePhoto,
-  resizePhoto
-} from '../../redux/actions';
+
 import config from '../../config';
 import { PhotoItem } from '../../components';
+
+import {
+uploadPhoto,
+deletePhoto,
+resizePhoto,
+cropPhoto
+} from '../../redux/actions';
+import {
+  withDeletePhotoMutation,
+  withAddResizedCopiesMutation,
+  withAddCroppedCopiesMutation
+} from '../../db/mutations';
 
 class AddPhotos extends Component {
   constructor(props) {
@@ -29,7 +36,7 @@ class AddPhotos extends Component {
       return;
     }
 
-    const { addResizedCopies, dispatch } = this.props;
+    const { addResizedCopies, addCroppedCopies, dispatch } = this.props;
     let data = new FormData();
     data.append('data', acceptedFiles[0]);
 
@@ -50,9 +57,10 @@ class AddPhotos extends Component {
             dispatch(
               resizePhoto(addResizedCopies, res.id, `https://images.graph.cool/v1/${config.graphql.project_id}/${res.secret}/178x252`, index)
             );
-
           } else {
-            console.log('crop')
+            dispatch(
+              cropPhoto(addCroppedCopies, res.id, `https://images.graph.cool/v1/${config.graphql.project_id}/${res.secret}/0x0:178x252`, index)
+            );
           }
         };
 
@@ -86,7 +94,7 @@ class AddPhotos extends Component {
         <Row className="form form__btn">
           <Button
             type="primary"
-            htmlType="submit"
+            onClick={() => this.props.dispatch(push('/plans'))}
           >NEXT</Button>
         </Row>
       </div>
@@ -94,47 +102,10 @@ class AddPhotos extends Component {
   }
 }
 
-const deletePhotoMutation = gql`
-  mutation deleteFile($id: ID!) {
-    deleteFile(id: $id) { id }
-  }
-`;
-
-const withPhotoMutation = graphql(deletePhotoMutation, {
-  props: ({ ownProps, mutate }) => ({
-    deleteFile(id) {
-      return mutate({
-        variables: { id }
-      })
-    },
-  }),
-});
-
-const resizePhotoMutation = gql`
-  mutation addResizedCopies($id: ID!, $resizedCopies: [String!]!) {
-    updateFile(id: $id, resizedCopies: $resizedCopies) { id resizedCopies }
-  }
-`;
-
-const withAddResizedCopies = graphql(resizePhotoMutation, {
-    props: ({ ownProps, mutate }) => ({
-      addResizedCopies (id, resizedCopies) {
-        return mutate({
-          variables: {
-            id,
-            resizedCopies
-          },
-          updateQueries: {}
-        })
-      }
-    })
-  }
-);
-
 const AddPhotosWithState = connect(
   state => ({
     photos: state.photo.photos
   })
 )(AddPhotos);
 
-export default withPhotoMutation(withAddResizedCopies(AddPhotosWithState));
+export default withAddCroppedCopiesMutation(withDeletePhotoMutation(withAddResizedCopiesMutation(AddPhotosWithState)));

@@ -1,5 +1,5 @@
 # project: cj76dgl631h6k01330824ixpu
-# version: 19
+# version: 23
 
 type File implements Node {
   contentType: String!
@@ -11,6 +11,7 @@ type File implements Node {
   updatedAt: DateTime!
   url: String! @isUnique
   resizedCopies: [String!]
+  croppedCopies: [String!]
 }
 
 type User implements Node {
@@ -23,14 +24,14 @@ type User implements Node {
   gender: Gender!
 }
 
-type Detail implements Node {
+type Plan implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   id: ID! @isUnique
   destination: Destinations!
-  duration: Int!
-  price: Int!
+  price: String!
   currency: Currencies!
+  duration: Int!
 }
 
 enum Currencies {

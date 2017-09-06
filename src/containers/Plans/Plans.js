@@ -19,8 +19,8 @@ class Plans extends Component {
     //   .then(res => this.props.dispatch(push('/my-details')));
   };
 
-  handleRemovePlan = index => {
-    this.props.dispatch(removePlan(index));
+  handleRemovePlan = (index, data) => {
+    this.props.dispatch(removePlan(index, data));
   };
 
   handleAddPlan = () => {

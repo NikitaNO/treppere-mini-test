@@ -1,16 +1,16 @@
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-// create plans
-const createPlansMutation = gql`
-  mutation addPlans($firstName: String!, $lastName: String!, $gender: Gender!, $dateOfBirth: DateTime!) {
-    createUser(firstName: $firstName, lastName: $lastName, gender: $gender, dateOfBirth: $dateOfBirth) {
-      firstName lastName gender dateOfBirth
+// create plan
+const createPlanMutation = gql`
+  mutation addPlan($destination: Destinations!, $duration: Int!, $price: Int!, $currency: Currencies!) {
+    addPlan(destination: $destination, duration: $duration, price: $price, currency: $currency) {
+      destination duration price currency
     }
   }
 `;
 
-export const withCreatePlanMutation = graphql(createPlansMutation, {
+export const withCreatePlanMutation = graphql(createPlanMutation, {
   props: ({ ownProps, mutate }) => ({
     addUser (data) {
       return mutate({

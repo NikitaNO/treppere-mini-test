@@ -1,5 +1,5 @@
 # project: cj76dgl631h6k01330824ixpu
-# version: 23
+# version: 24
 
 type File implements Node {
   contentType: String!
@@ -29,7 +29,7 @@ type Plan implements Node {
   updatedAt: DateTime!
   id: ID! @isUnique
   destination: Destinations!
-  price: String!
+  price: Int!
   currency: Currencies!
   duration: Int!
 }

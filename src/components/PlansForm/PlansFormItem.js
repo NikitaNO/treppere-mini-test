@@ -10,12 +10,42 @@ export default class PlansFormItem extends Component {
     this.currencies = ['USD', 'EUR', 'UAH'];
   }
 
-  renderInput = props => (
-    <Input placeholder={ props.placeholder }
-           value={ props.input.value }
-           onChange={ props.input.onChange }
-    />
-  );
+  formatNumber = (value) => {
+    value += '';
+    const list = value.split('.');
+    const prefix = list[0].charAt(0) === '-' ? '-' : '';
+    let num = prefix ? list[0].slice(1) : list[0];
+    let result = '';
+    while (num.length > 3) {
+      result = `,${num.slice(-3)}${result}`;
+      num = num.slice(0, num.length - 3);
+    }
+    if (num) {
+      result = num + result;
+    }
+    return `${prefix}${result}${list[1] ? `.${list[1]}` : ''}`;
+  };
+
+  renderNumericInput = props => {
+    const onChange = (e) => {
+      const { value } = e.target;
+      const reg = /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/;
+      if (value === '') {
+        props.input.onChange(0);
+      } else if (value[0] === '0' && !isNaN(value.slice(1)) && reg.test(value.slice(1))) {
+        props.input.onChange(value.slice(1));
+      } else if (!isNaN(value) && reg.test(value)) {
+        props.input.onChange(value);
+      }
+    };
+
+    return (
+      <Input placeholder={ props.placeholder }
+             value={ props.input.value }
+             onChange={ onChange }
+      />
+    );
+  };
 
   renderDestinationsSelect = props => (
     <Select value={ props.input.value }
@@ -54,7 +84,7 @@ export default class PlansFormItem extends Component {
                   <Field
                     name={`${plan}.duration`}
                     type="text"
-                    component={this.renderInput}
+                    component={this.renderNumericInput}
                     placeholder="Duration"/>
                 </div>
               </div>
@@ -64,7 +94,7 @@ export default class PlansFormItem extends Component {
                   <Field
                     name={`${plan}.price`}
                     type="text"
-                    component={this.renderInput}
+                    component={this.renderNumericInput}
                     placeholder="Price"/>
                 </div>
                 <div className="field-block">

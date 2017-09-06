@@ -23,46 +23,36 @@ export const removePlan = index => (dispatch) => {
   })
 };
 
-export const createPlans = (promiseAction, planData) => (dispatch) => {
+export const createPlans = (promiseAction, plansArray) => (dispatch) => {
   message.destroy();
-  message.loading('Plan data is saving..', 60);
+  message.loading('Plans data is saving..', 60);
   dispatch({
     type: planConst.CREATE_PLANS
   });
 
-  return new Promise((resolve, reject) => promiseAction(planData)
+  const promisesArray = plansArray.map(plan => promiseAction(plan));
+
+  return Promise.all(promisesArray)
     .then(res => {
       message.destroy();
-      message.success('Plan data is saved.', 5);
-      const { destination, duration, price, currency } = res.data.createPlan;
+      message.success('Plans data is saved.', 5);
       dispatch({
         type: planConst.CREATE_PLANS_SUCCESS,
-        payload: {
-          destination: destination || 'Japan',
-          duration: duration || 0,
-          price: price || 0,
-          currency: currency || 'EUR'
-        }
+        payload: plansArray
       });
 
-      resolve(res);
+      return res;
     })
     .catch(err => {
       message.destroy();
-      message.error('Plan data saving is failed.', 5);
+      message.error('Plans data saving is failed.', 5);
       dispatch({
-        type: planData.PLAN_ERROR,
+        type: planConst.PLAN_ERROR,
         payload: {
-          user: {
-            destination: planData.destination || 'Japan',
-            duration: duration || 0,
-            price: planData.price || 0,
-            currency: planData.currency || 'EUR'
-          },
+          plans: plansArray,
           error: err
         }
       });
       console.error(err);
-    })
-  );
+    });
 };

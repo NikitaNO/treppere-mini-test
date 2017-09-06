@@ -15,8 +15,8 @@ class Plans extends Component {
   };
 
   handleCreatePlans = data => {
-    // this.props.dispatch(createPlans(this.props.addUser, data))
-    //   .then(res => this.props.dispatch(push('/my-details')));
+    this.props.dispatch(createPlans(this.props.addPlan, [...data.plans]))
+      .then(res => this.props.dispatch(push('/my-details')));
   };
 
   handleRemovePlan = (index, data) => {

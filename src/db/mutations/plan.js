@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 // create plan
 const createPlanMutation = gql`
   mutation addPlan($destination: Destinations!, $duration: Int!, $price: Int!, $currency: Currencies!) {
-    addPlan(destination: $destination, duration: $duration, price: $price, currency: $currency) {
+    createPlan(destination: $destination, duration: $duration, price: $price, currency: $currency) {
       destination duration price currency
     }
   }
@@ -12,7 +12,7 @@ const createPlanMutation = gql`
 
 export const withCreatePlanMutation = graphql(createPlanMutation, {
   props: ({ ownProps, mutate }) => ({
-    addUser (data) {
+    addPlan (data) {
       return mutate({
         variables: data
       })

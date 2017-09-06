@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Input, Select } from 'antd';
 import { Row, Col } from 'antd';
 
 export default class PlansFormItem extends Component {
+  static propTypes = {
+    fields: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.destinations = ['Japan', 'USA', 'Ukraine', 'England', 'Australia', 'Canada' ];

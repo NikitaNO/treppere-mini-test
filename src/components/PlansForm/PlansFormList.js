@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FieldArray, reduxForm } from 'redux-form';
 import { PlansFormItem } from '../../components';
 
 import { Row, Button } from 'antd';
 
 class PlansFormList extends Component {
+  static propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
+    handleCreatePlans: PropTypes.func.isRequired
+  };
+
   render() {
     const {
       handleSubmit,

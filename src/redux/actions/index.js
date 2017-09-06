@@ -13,7 +13,5 @@ export {
 
 export {
   createPlans,
-  addPlan,
-  removePlan,
   planConst
 } from './plan';

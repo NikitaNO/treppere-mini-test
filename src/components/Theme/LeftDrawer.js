@@ -57,7 +57,7 @@ class LeftDrawer extends Component {
       <Menu onClick={e => this.redirect(e.key)}
             mode="vertical"
             theme="dark"
-            selectedKeys={this.state.selectedKey}>
+            selectedKeys={[this.state.selectedKey]}>
         {Object.keys(this.menus).map(key => (
           <Menu.Item key={this.menus[key].link}>
             <Icon type={this.menus[key].icon}/>

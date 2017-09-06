@@ -91,6 +91,7 @@ class AddPhotos extends Component {
           {this.props.photos.map((photo, index) => (
             <PhotoItem photo={photo}
                        index={index}
+                       key={index}
                        onPhotoDelete={this.onPhotoDelete}
                        onPhotoUpload={this.onPhotoUpload}/>
           ))}

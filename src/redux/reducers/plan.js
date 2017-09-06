@@ -30,24 +30,6 @@ export const plan = (state = initialState, action) => {
         error: null
       };
 
-    case planConst.ADD_PLAN:
-      return {
-        ...state,
-        plans: [...state.plans, initialPlan],
-        in_request: false,
-        error: null
-      };
-
-
-    case planConst.REMOVE_PLAN:
-      const filteredPlans = state.plans.filter((p, i) => i !== action.payload);
-      return {
-        ...state,
-        plans: filteredPlans.length ? filteredPlans : [initialPlan],
-        in_request: false,
-        error: null
-      };
-
     case planConst.PLAN_ERROR:
       return {
         ...state,

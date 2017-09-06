@@ -4,23 +4,7 @@ export const planConst = {
   CREATE_PLANS: 'CREATE_PLANS',
   CREATE_PLANS_SUCCESS: 'CREATE_PLANS_SUCCESS',
 
-  REMOVE_PLAN: 'DELETE_PLAN',
-  ADD_PLAN: 'ADD_PLAN',
-
   PLAN_ERROR: 'PLAN_ERROR'
-};
-
-export const addPlan = () => (dispatch) => {
-  dispatch({
-    type: planConst.ADD_PLAN
-  })
-};
-
-export const removePlan = index => (dispatch) => {
-  dispatch({
-    type: planConst.REMOVE_PLAN,
-    payload: index
-  })
 };
 
 export const createPlans = (promiseAction, plansArray) => (dispatch) => {
@@ -32,7 +16,7 @@ export const createPlans = (promiseAction, plansArray) => (dispatch) => {
 
   const promisesArray = plansArray.map(plan => promiseAction(plan));
 
-  return Promise.all(promisesArray)
+  return new Promise((resolve, reject) => Promise.all(promisesArray)
     .then(res => {
       message.destroy();
       message.success('Plans data is saved.', 5);
@@ -41,7 +25,7 @@ export const createPlans = (promiseAction, plansArray) => (dispatch) => {
         payload: plansArray
       });
 
-      return res;
+      resolve(res);
     })
     .catch(err => {
       message.destroy();
@@ -54,5 +38,5 @@ export const createPlans = (promiseAction, plansArray) => (dispatch) => {
         }
       });
       console.error(err);
-    });
+    }))
 };

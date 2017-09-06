@@ -8,23 +8,13 @@ export default class PlansFormItem extends Component {
     super(props);
     this.destinations = ['Japan', 'USA', 'Ukraine', 'England', 'Australia', 'Canada' ];
     this.currencies = ['USD', 'EUR', 'UAH'];
+    this.initialPlan = {
+      destination: 'Japan',
+      duration: 2,
+      price: 120,
+      currency: 'EUR'
+    };
   }
-
-  formatNumber = (value) => {
-    value += '';
-    const list = value.split('.');
-    const prefix = list[0].charAt(0) === '-' ? '-' : '';
-    let num = prefix ? list[0].slice(1) : list[0];
-    let result = '';
-    while (num.length > 3) {
-      result = `,${num.slice(-3)}${result}`;
-      num = num.slice(0, num.length - 3);
-    }
-    if (num) {
-      result = num + result;
-    }
-    return `${prefix}${result}${list[1] ? `.${list[1]}` : ''}`;
-  };
 
   renderNumericInput = props => {
     const onChange = (e) => {
@@ -33,15 +23,15 @@ export default class PlansFormItem extends Component {
       if (value === '') {
         props.input.onChange(0);
       } else if (value[0] === '0' && !isNaN(value.slice(1)) && reg.test(value.slice(1))) {
-        props.input.onChange(value.slice(1));
+        props.input.onChange(+value.slice(1));
       } else if (!isNaN(value) && reg.test(value)) {
-        props.input.onChange(value);
+        props.input.onChange(+value);
       }
     };
 
     return (
       <Input placeholder={ props.placeholder }
-             value={ props.input.value }
+             value={ +props.input.value }
              onChange={ onChange }
       />
     );
@@ -62,7 +52,7 @@ export default class PlansFormItem extends Component {
   );
 
   render() {
-    const { fields, handleRemovePlan } = this.props;
+    const { fields } = this.props;
 
     return (
       <div>
@@ -102,15 +92,16 @@ export default class PlansFormItem extends Component {
                     name={`${plan}.currency`}
                     type="text"
                     component={this.renderCurrenciesSelect}
-                    placeholder="Currencies"/>
+                    placeholder="Currencies" />
                 </div>
               </div>
             </Col>
             <Col span={8}>
-              <span onClick={() => handleRemovePlan(index)} className="delete-plan">delete</span>
+              <span onClick={() => fields.length && fields.remove(index)} className="delete-plan">delete</span>
             </Col>
           </Row>
         )}
+        <span className="add-plan-btn" onClick={() => fields.push(this.initialPlan)}>+ Add plan (optional)</span>
       </div>
     )
   }

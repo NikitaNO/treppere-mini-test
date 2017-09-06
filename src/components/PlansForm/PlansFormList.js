@@ -8,16 +8,13 @@ class PlansFormList extends Component {
   render() {
     const {
       handleSubmit,
-      handleCreatePlans,
-      handleRemovePlan,
-      handleAddPlan
+      handleCreatePlans
     } = this.props;
 
     return (
       <form className="plans__form" onSubmit={handleSubmit(handleCreatePlans)}>
         <Row className="form form__body" >
-          <FieldArray name="plans" component={PlansFormItem} handleRemovePlan={handleRemovePlan}/>
-          <span className="add-plan-btn" onClick={handleAddPlan}>+ Add plan (optional)</span>
+          <FieldArray name="plans" component={PlansFormItem}/>
         </Row>
         <Row className="form form__btn">
           <Button

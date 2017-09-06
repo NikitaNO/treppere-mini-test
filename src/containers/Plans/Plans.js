@@ -46,8 +46,6 @@ class Plans extends Component {
   }
 }
 
-
-
 const PlansWithState = connect(
   state => ({
     initialValues: {

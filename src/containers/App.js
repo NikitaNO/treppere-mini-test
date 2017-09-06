@@ -52,11 +52,10 @@ export default class App extends Component {
           <Layout.Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
             { this.props.children }
           </Layout.Content>
-
-          <Layout.Footer style={{ textAlign: 'center' }}>
-            <span>Treppere ©2017 Created by DoIT</span>
-          </Layout.Footer>
         </Layout>
+        <Layout.Footer style={{ textAlign: 'center' }}>
+          <span>Treppere ©2017 Created by DoIT</span>
+        </Layout.Footer>
       </Layout>
     );
   }

@@ -15,9 +15,11 @@ $red: #cf0000;
       text-align: center;
       position: fixed;
       bottom: 0;
-      width: calc(100% - 200px);
+      width: 100%;
       background-color: $gray;
+      z-index: 1;
     }
+
     .ant-layout-content {
       padding-bottom: 100px !important;
       min-height: auto !important;
@@ -36,19 +38,22 @@ $red: #cf0000;
   }
 }
 
-.ant-layout-sider .logo {
-  user-select: none;
-  height: 32px;
-  background: #333;
-  border-radius: 6px;
-  margin: 16px;
-  color: #fff;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  font-size: 20px;
-  text-align: center;
-  .logo_letter {
-    display: none;
+.ant-layout-sider {
+  z-index: 10;
+  .logo {
+    user-select: none;
+    height: 32px;
+    background: #333;
+    border-radius: 6px;
+    margin: 16px;
+    color: #fff;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 20px;
+    text-align: center;
+    .logo_letter {
+      display: none;
+    }
   }
 }
 

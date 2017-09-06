@@ -105,26 +105,6 @@ class MyDetailsForm extends Component {
   }
 }
 
-const validate = values => {
-  const errors = {};
-
-  if (!values.firstName) {
-    errors.firstName = 'Required';
-  }
-
-  if (!values.lastName) {
-    errors.lastName = 'Required';
-  }
-
-  if (!values.dateOfBirth) {
-    errors.dateOfBirth = 'Required';
-  }
-
-  if (!values.gender) {
-    errors.gender = 'Required';
-  }
-};
-
 MyDetailsForm = reduxForm({
   form: 'myDetailsForm',
   enableReinitialize: true
